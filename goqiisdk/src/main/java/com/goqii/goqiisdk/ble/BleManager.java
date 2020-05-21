@@ -365,7 +365,7 @@ public class BleManager {
                             if (Build.VERSION.SDK_INT < 21) {
                                 bluetoothAdapter.stopLeScan(mLeScanCallback);
                             } else {
-                                String address = (String) Utils.getPreferences(mContext, Utils.TEMP_MACADDRESS, Utils.PREFTYPE_STRING);
+                                String address = (String) Utils.getPreferences(mContext, Utils.MACADDRESS, Utils.PREFTYPE_STRING);
                                 Utils.printLog("e", "Callback", address);
                                 if (TextUtils.isEmpty(address))
                                     BleUtilStatus.sendBandStatus(mContext, 1408);
