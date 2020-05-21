@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/lay_firstrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/ed1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_secondtrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay_firstrow"
+        android:layout_margin="10dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/ed7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_thirdrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay_secondtrow"
+        android:layout_margin="10dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/ed13"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ed16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_background"
+            android:gravity="center"
+            android:text="00"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/lay_thirdrow"
+        android:layout_toStartOf="@+id/btnClear"
+        android:text="Send" />
+
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/lay_thirdrow"
+        android:layout_centerHorizontal="true"
+        android:text="Clear" />
+
+    <TextView
+        android:id="@+id/tvResponse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnClear"
+        android:layout_margin="20dp"
+        android:textSize="10sp"
+        android:gravity="bottom"
+        android:scrollbars = "none"
+        android:textColor="@android:color/black"
+        android:text="" />
+
+</RelativeLayout>

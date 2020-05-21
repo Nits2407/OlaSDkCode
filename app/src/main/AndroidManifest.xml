@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.demo">
+
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="DEMO"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!--Live Credentials-->
+        <meta-data
+            android:name="GOQii_ACCOUNT_ID"
+            android:value="20041809"/>
+        <meta-data
+            android:name="GOQii_TOKEN"
+            android:value="78yhr1d4fh5oq8cj8282j954f"/>
+
+        <!--Demo Credentials-->
+
+        <!--<meta-data
+            android:name="GOQii_ACCOUNT_ID"
+            android:value="20041806"/>
+        <meta-data
+            android:name="GOQii_TOKEN"
+            android:value="k2bs517074hay1xlk8wj44j38"/>-->
+
+        <activity
+            android:name=".DeviceScanActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RealtimeHrAndTempDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.goqii.goqiisdk.ble.BleService" />
+    </application>
+
+</manifest>

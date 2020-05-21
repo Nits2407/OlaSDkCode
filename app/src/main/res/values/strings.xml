@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AndroidBleDemo</string>
+    <string name="ble_not_supported">Ble not Supported</string>
+    <string name="unknown_device">Unknown Device</string>
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+    <string name="temperature_unit">\u2109</string>
+    <string name="connectting">Connecting Tracker...</string>
+    <string name="fetching_tracker_setting">Fetching tracker settings...</string>
+</resources>

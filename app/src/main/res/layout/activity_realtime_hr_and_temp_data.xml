@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tvHrLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Heart Rate"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_weight="33"
+        app:layout_constraintRight_toLeftOf="@+id/tvTempLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTempLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Temperature"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/tvBatteryLabel"
+        app:layout_constraintHorizontal_weight="33"
+        app:layout_constraintStart_toEndOf="@+id/tvHrLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBatteryLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Battery"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="33"
+        app:layout_constraintStart_toEndOf="@+id/tvTempLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHrValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tvHrLabel"
+        app:layout_constraintStart_toStartOf="@+id/tvHrLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvHrLabel"
+        tools:text="72 bpm" />
+
+    <TextView
+        android:id="@+id/tvTempValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tvTempLabel"
+        app:layout_constraintStart_toStartOf="@+id/tvTempLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvTempLabel"
+        tools:text="96 \u2109" />
+
+    <TextView
+        android:id="@+id/tvMac"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="dsfsfdsfs"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@+id/tvHrValue"
+        app:layout_constraintEnd_toEndOf="@+id/tvBatteryValue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTempValue"/>
+
+
+    <TextView
+        android:id="@+id/tvBatteryValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tvBatteryLabel"
+        app:layout_constraintStart_toStartOf="@+id/tvBatteryLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvBatteryLabel"
+        tools:text="96 \u2109" />
+
+    <Button
+        android:id="@+id/btnDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Graph"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/lay1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/btnDashboard">
+
+        <Button
+            android:id="@+id/btnDisconnect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Disconnect" />
+
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Skip Pairing" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/lay1">
+
+        <Button
+            android:id="@+id/btnOffDuty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Off Duty" />
+
+        <Button
+            android:id="@+id/btnOnDuty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="On Duty" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/lay2">
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Logout" />
+
+        <Button
+            android:id="@+id/btnChangeApiCallTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Change Time" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/lay3">
+
+        <Button
+            android:id="@+id/btnSyncOn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sync On" />
+
+        <Button
+            android:id="@+id/btnSyncOff"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sync Off" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
