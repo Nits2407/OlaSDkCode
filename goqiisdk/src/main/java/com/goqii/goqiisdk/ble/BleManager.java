@@ -73,8 +73,10 @@ public class BleManager {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
                     try {
-                        BleService.LocalBinder binder = (BleService.LocalBinder) service;
-                        bleService = binder.getService();
+                       /* BleService.LocalBinder binder = (BleService.LocalBinder) service;
+                        bleService = binder.getService();*/
+                        if (bleService == null)
+                            bleService = BleService.getInstance();
                         if (!TextUtils.isEmpty(address)) {
                             bleService.initBluetoothDevice(address, mContext);
                         }
