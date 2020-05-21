@@ -48,20 +48,20 @@ public class BleManager {
     private Intent serviceIntent;
     private BluetoothAdapter bluetoothAdapter;
     private static Context mContext;
-    private static Context activity;
     private Handler mHandler = new Handler();
     private BluetoothLeScanner mLEScanner;
     private ScanSettings settings;
     private ArrayList<ScanFilter> filters;
     private ArrayList<String> deviceList;
     private ResponseCallbacks responseCallbacks;
+    private boolean isDeviceFound;
 
     private BleManager(final Context context, JSONObject olaJsonObject) {
         mContext = context.getApplicationContext();
-        BleManager.activity = context;
         Utils.saveStringPreferences(mContext, Utils.PROFILE_DATA, olaJsonObject.toString());
         if (serviceIntent == null) {
-            serviceIntent = new Intent(activity, BleService.class);
+            serviceIntent = new Intent(mContext, BleService.class);
+            mContext.startService(serviceIntent);
             // TODO Auto-generated method stub
             ServiceConnection serviceConnection = new ServiceConnection() {
 
@@ -79,7 +79,7 @@ public class BleManager {
                     }
                 }
             };
-            activity.bindService(serviceIntent, serviceConnection,
+            mContext.bindService(serviceIntent, serviceConnection,
                     Service.BIND_AUTO_CREATE);
         }
         DatabaseHandler databaseHandler = DatabaseHandler.getInstance(mContext);
@@ -92,6 +92,7 @@ public class BleManager {
     }
 
     private void iniitiateLeScanner() {
+        isDeviceFound = false;
         if (mLEScanner == null)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mLEScanner = bluetoothAdapter.getBluetoothLeScanner();
@@ -176,8 +177,8 @@ public class BleManager {
     private void stopBLEService() {
         try {
             //stopConnectTimer();
-            Intent service = new Intent(activity, BleService.class);
-            activity.stopService(service);
+            Intent service = new Intent(mContext, BleService.class);
+            mContext.stopService(service);
 
             if (ourInstance != null)
                 ourInstance.CleanUpNow();
@@ -365,9 +366,9 @@ public class BleManager {
                             if (Build.VERSION.SDK_INT < 21) {
                                 bluetoothAdapter.stopLeScan(mLeScanCallback);
                             } else {
-                                String address = (String) Utils.getPreferences(mContext, Utils.MACADDRESS, Utils.PREFTYPE_STRING);
+                                String address = (String) Utils.getPreferences(mContext, Utils.TEMP_MACADDRESS, Utils.PREFTYPE_STRING);
                                 Utils.printLog("e", "Callback", address);
-                                if (TextUtils.isEmpty(address))
+                                if (!isDeviceFound)
                                     BleUtilStatus.sendBandStatus(mContext, 1408);
                                 mLEScanner.stopScan(mScanCallback);
                             }
@@ -402,6 +403,7 @@ public class BleManager {
 
             if (isDeviceAvailable(deviceName)) {
                 Utils.saveStringPreferences(mContext, Utils.TEMP_MACADDRESS, btDevice.getAddress());
+                isDeviceFound = true;
                 //Utils.updateIdentityObject(mContext, btDevice.getAddress());
                 scanLeDevice(false);
                 mHandler.removeCallbacksAndMessages(null);
