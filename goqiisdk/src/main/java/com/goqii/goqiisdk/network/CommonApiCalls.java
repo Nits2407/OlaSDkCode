@@ -254,6 +254,9 @@ public class CommonApiCalls {
                             if (baseResponse.getCode() == 200) {
                                 if (responseCallbacks != null)
                                     responseCallbacks.getApiResult(true, type);
+                                if (BleManager.getInstance().isConnected())
+                                    BleManager.getInstance().makeDisconnect();
+
                                 BleManager.getInstance().connectDevice();
                             }
 

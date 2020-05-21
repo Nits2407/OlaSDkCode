@@ -72,10 +72,14 @@ public class BleManager {
 
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
-                    BleService.LocalBinder binder = (BleService.LocalBinder) service;
-                    bleService = binder.getService();
-                    if (!TextUtils.isEmpty(address)) {
-                        bleService.initBluetoothDevice(address, mContext);
+                    try {
+                        BleService.LocalBinder binder = (BleService.LocalBinder) service;
+                        bleService = binder.getService();
+                        if (!TextUtils.isEmpty(address)) {
+                            bleService.initBluetoothDevice(address, mContext);
+                        }
+                    } catch (Exception e) {
+                        Utils.printStackTrace(e);
                     }
                 }
             };
@@ -421,6 +425,7 @@ public class BleManager {
         @Override
         public void onScanFailed(int errorCode) {
             Log.e("Scan Failed", "Error Code: " + errorCode);
+            startScan(null);
         }
     };
 
@@ -479,5 +484,10 @@ public class BleManager {
 
     public void turnOffBluetooth() {
         bluetoothAdapter.disable();
+    }
+
+    public void makeDisconnect() {
+        if (bleService == null) return;
+        bleService.makeDisconnectFlag();
     }
 }
