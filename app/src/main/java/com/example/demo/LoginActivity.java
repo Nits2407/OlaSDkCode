@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseCallback
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BleManager.init(this, olaJsonObject);
+        BleManager.init(getApplicationContext(), olaJsonObject);
         if (Utils.isNetworkAvailable(this)) {
             showConnectDialog(getString(R.string.fetching_tracker_setting));
         }

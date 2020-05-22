@@ -63,10 +63,10 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
     }
 
     private void initData() {
-        if (BleManager.getInstance().isMacIdAvailable()) {
+        if (BleManager.getInstance(getApplicationContext()).isMacIdAvailable()) {
             String mac = (String) Utils.getPreferences(this, Utils.MACADDRESS, Utils.PREFTYPE_STRING);
             tvMac.setText("MacAdress:" + mac);
-            BleManager.getInstance().setResponseCallbacks(this);
+            BleManager.getInstance(getApplicationContext()).setResponseCallbacks(this);
         }
         registerBandReceiver();
         startScanCode();
@@ -91,8 +91,8 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
         btnDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BleManager.getInstance().isMacIdAvailable()) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://insight.goqii.com/real-time-hr?uid=" + BleManager.getInstance().getMacIdBase64()));
+                if (BleManager.getInstance(getApplicationContext()).isMacIdAvailable()) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://insight.goqii.com/real-time-hr?uid=" + BleManager.getInstance(getApplicationContext()).getMacIdBase64()));
                     startActivity(browserIntent);
                 } else {
                     Toast.makeText(RealtimeHrAndTempDataActivity.this, "Tracker not linked", Toast.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
                 showConnectDialog(getString(R.string.please_wait));
-                BleManager.getInstance().updateStatus("logout");
+                BleManager.getInstance(getApplicationContext()).updateStatus("logout");
             }
         });
 
@@ -112,15 +112,15 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
                 showConnectDialog(getString(R.string.please_wait));
-                BleManager.getInstance().updateStatus("offduty");
+                BleManager.getInstance(getApplicationContext()).updateStatus("offduty");
             }
         });
 
         btnOnDuty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BleManager.getInstance().isBleEnable())
-                    BleManager.getInstance().updateStatus("onduty");
+                if (BleManager.getInstance(getApplicationContext()).isBleEnable())
+                    BleManager.getInstance(getApplicationContext()).updateStatus("onduty");
                 else {
                     Intent enableBtIntent = new Intent(
                             BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -133,7 +133,7 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BleManager.getInstance().updateStatus("skipPairing");
+                BleManager.getInstance(getApplicationContext()).updateStatus("skipPairing");
             }
         });
 
@@ -141,21 +141,21 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
                 showConnectDialog(getString(R.string.please_wait));
-                BleManager.getInstance().updateStatus("disconnect");
+                BleManager.getInstance(getApplicationContext()).updateStatus("disconnect");
             }
         });
 
         btnSyncOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BleManager.getInstance().updateSyncingStatus("syncOn");
+                BleManager.getInstance(getApplicationContext()).updateSyncingStatus("syncOn");
             }
         });
 
         btnSyncOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BleManager.getInstance().updateSyncingStatus("syncOff");
+                BleManager.getInstance(getApplicationContext()).updateSyncingStatus("syncOff");
             }
         });
 
@@ -168,13 +168,13 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                BleManager.getInstance().updateTrackerSettings(settingsData.toString());
+                BleManager.getInstance(getApplicationContext()).updateTrackerSettings(settingsData.toString());
             }
         });
     }
 
     private void startScanCode() {
-        if (BleManager.getInstance().isBleEnable())
+        if (BleManager.getInstance(getApplicationContext()).isBleEnable())
             initialisedScan();
         else {
             Intent enableBtIntent = new Intent(
@@ -198,7 +198,7 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
             if (!status.equalsIgnoreCase("skipPairing")) {
                 //showConnectDialog(getString(R.string.connectting));
                 setUpGClient();
-                //BleManager.getInstance().startScan(this);
+                //BleManager.getInstance(getApplicationContext()).startScan(this);
             }
         }
     }
@@ -228,9 +228,9 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
     }
 
     private void updateData() {
-        final int batteryPower = BleManager.getInstance().getBatteryStatus();
-        final String heartRate = BleManager.getInstance().getHeartRate();
-        final String temp = BleManager.getInstance().getBodyTemperature();
+        final int batteryPower = BleManager.getInstance(getApplicationContext()).getBatteryStatus();
+        final String heartRate = BleManager.getInstance(getApplicationContext()).getHeartRate();
+        final String temp = BleManager.getInstance(getApplicationContext()).getBodyTemperature();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -257,7 +257,7 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
                 finish();
         } else {
             if (isSuccess)
-                BleManager.getInstance().connectDevice();
+                BleManager.getInstance(getApplicationContext()).connectDevice();
         }
     }
 
@@ -294,11 +294,11 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
                     msg = alertType;
                 else
                     msg = "Successful tracker connection";
-                if (BleManager.getInstance().isMacIdAvailable()) {
+                if (BleManager.getInstance(getApplicationContext()).isMacIdAvailable()) {
                     String mac = (String) Utils.getPreferences(this, Utils.MACADDRESS, Utils.PREFTYPE_STRING);
                     tvMac.setText("MacAdress:" + mac);
                 }
-                BleManager.getInstance().startDataReading();
+                BleManager.getInstance(getApplicationContext()).startDataReading();
                 isToastShow = false;
                 dissMissDialog();
                 break;
@@ -346,8 +346,8 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (BleManager.getInstance().isConnected())
-            BleManager.getInstance().disconnectDevice();
+        if (BleManager.getInstance(getApplicationContext()).isConnected())
+            BleManager.getInstance(getApplicationContext()).disconnectDevice();
         if (bandReciever != null)
             unregisterReceiver(bandReciever);
     }
@@ -400,7 +400,7 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
                         if (!status.equalsIgnoreCase("skipPairing")) {
                             //showConnectDialog(getString(R.string.connectting));
                             setUpGClient();
-                            //BleManager.getInstance().startScan(this);
+                            //BleManager.getInstance(getApplicationContext()).startScan(this);
                         }
                     }
                 }

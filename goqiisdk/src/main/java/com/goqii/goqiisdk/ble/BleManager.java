@@ -56,6 +56,7 @@ public class BleManager {
     private ResponseCallbacks responseCallbacks;
     private boolean isDeviceFound;
 
+
     private BleManager(final Context context, JSONObject olaJsonObject) {
         mContext = context.getApplicationContext();
         Utils.saveStringPreferences(mContext, Utils.PROFILE_DATA, olaJsonObject.toString());
@@ -110,7 +111,7 @@ public class BleManager {
                     ourInstance = new BleManager(context, olaJsonObject);
                 }
             }
-            int isSettingsApi = (int) Utils.getPreferences(mContext, Utils.IS_SETTINGS_API, Utils.PREFTYPE_INT);
+            int isSettingsApi = (int) Utils.getPreferences(context, Utils.IS_SETTINGS_API, Utils.PREFTYPE_INT);
             if (isSettingsApi == 0)
                 BleManager.getInstance().callSettingsApi(null);
 //            else
@@ -145,12 +146,27 @@ public class BleManager {
 
             }
         } catch (Exception e) {
-            try {
-                JSONObject jsonObject = new JSONObject(Utils.getIdentityObject(mContext));
-                ourInstance = new BleManager(mContext, jsonObject);
-            } catch (JSONException ex) {
-                ex.printStackTrace();
+            Utils.printStackTrace(e);
+        }
+        return ourInstance;
+    }
+
+    public static BleManager getInstance(Context mContext) {
+        try {
+            if (ourInstance == null) {
+                synchronized (BleManager.class) {
+                    if (ourInstance == null) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(Utils.getIdentityObject(mContext));
+                            ourInstance = new BleManager(mContext, jsonObject);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
             }
+        } catch (Exception e) {
             Utils.printStackTrace(e);
         }
         return ourInstance;
