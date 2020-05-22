@@ -88,6 +88,7 @@ public class CommonApiCalls {
                 @Override
                 public void run() {
                     BleManager.getInstance().disconnectDevice();
+                    BleManager.getInstance().makeDisconnect();
                 }
             }, 2000);
 

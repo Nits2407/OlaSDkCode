@@ -104,19 +104,24 @@ public class BleManager {
             }
     }
 
-    public static void init(Context context, JSONObject olaJsonObject) {
-        if (ourInstance == null) {
-            synchronized (BleManager.class) {
+    public static void init(final Context context, final JSONObject olaJsonObject) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
                 if (ourInstance == null) {
-                    ourInstance = new BleManager(context, olaJsonObject);
-                }
-            }
-            int isSettingsApi = (int) Utils.getPreferences(context, Utils.IS_SETTINGS_API, Utils.PREFTYPE_INT);
-            if (isSettingsApi == 0)
-                BleManager.getInstance().callSettingsApi(null);
+                    synchronized (BleManager.class) {
+                        if (ourInstance == null) {
+                            ourInstance = new BleManager(context, olaJsonObject);
+                        }
+                    }
+                    int isSettingsApi = (int) Utils.getPreferences(context, Utils.IS_SETTINGS_API, Utils.PREFTYPE_INT);
+                    if (isSettingsApi == 0)
+                        BleManager.getInstance().callSettingsApi(null);
 //            else
 //                responseCallbacks.getApiResult(true, NetworkManager.REQUEST.FETCH_TRACKER_SETTINGS);
-        }
+                }
+            }
+        });
     }
 
     public boolean isBleEnable() {
@@ -174,7 +179,8 @@ public class BleManager {
 
     public void connectDevice() {
         String address = (String) Utils.getPreferences(mContext, Utils.TEMP_MACADDRESS, Utils.PREFTYPE_STRING);
-        if (!bluetoothAdapter.isEnabled() || TextUtils.isEmpty(address) || isConnected()) return;
+        if (!bluetoothAdapter.isEnabled() || TextUtils.isEmpty(address) || isConnected())
+            return;
 
         if (bleService == null) {
             this.address = address;

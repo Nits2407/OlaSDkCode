@@ -2,6 +2,7 @@ package com.example.demo;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,14 +40,16 @@ public class LoginActivity extends AppCompatActivity implements ResponseCallback
     }
 
     private void callISettingsApi() {
-        JSONObject olaJsonObject = new JSONObject();
+        /*JSONObject olaJsonObject = new JSONObject();
         try {
             olaJsonObject.put("driverId", "d3-ban");
             olaJsonObject.put("sessionId", "903243fhrsa");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BleManager.init(getApplicationContext(), olaJsonObject);
+
+        BleManager.init(getApplicationContext(), olaJsonObject);*/
+        new AsyncTaskExample().execute();
         if (Utils.isNetworkAvailable(this)) {
             showConnectDialog(getString(R.string.fetching_tracker_setting));
         }
@@ -83,6 +86,30 @@ public class LoginActivity extends AppCompatActivity implements ResponseCallback
     private void dissMissDialog() {
         if (progressDialog != null && progressDialog.isShowing()) progressDialog.dismiss();
 
+    }
+
+    private class AsyncTaskExample extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            JSONObject olaJsonObject = new JSONObject();
+            try {
+                olaJsonObject.put("driverId", "d3-ban");
+                olaJsonObject.put("sessionId", "903243fhrsa");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            BleManager.init(getApplicationContext(), olaJsonObject);
+            return "";
+        }
+        @Override
+        protected void onPostExecute(String bitmap) {
+            super.onPostExecute(bitmap);
+        }
     }
 
 }
