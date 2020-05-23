@@ -5,6 +5,7 @@ import com.goqii.goqiisdk.util.Utils;
 
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -48,7 +49,7 @@ public class ResolveUtil {
                 }
             }
 
-            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            NumberFormat numberFormat = NumberFormat.getInstance(new Locale("en","US"));
             numberFormat.setMinimumFractionDigits(2);
             activityData[0] = String.valueOf(step);
             activityData[1] = numberFormat.format(cal / 100);

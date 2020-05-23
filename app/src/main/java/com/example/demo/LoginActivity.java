@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseCallback
     }
 
     private void callISettingsApi() {
-        /*JSONObject olaJsonObject = new JSONObject();
+        JSONObject olaJsonObject = new JSONObject();
         try {
             olaJsonObject.put("driverId", "d3-ban");
             olaJsonObject.put("sessionId", "903243fhrsa");
@@ -48,8 +48,8 @@ public class LoginActivity extends AppCompatActivity implements ResponseCallback
             e.printStackTrace();
         }
 
-        BleManager.init(getApplicationContext(), olaJsonObject);*/
-        new AsyncTaskExample().execute();
+        BleManager.init(getApplicationContext(), olaJsonObject);
+        //new AsyncTaskExample().execute();
         if (Utils.isNetworkAvailable(this)) {
             showConnectDialog(getString(R.string.fetching_tracker_setting));
         }

@@ -29,6 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -197,8 +199,17 @@ public class Utils {
     }
 
     public static float celsiusTofahrenheit(float temperature) {
-        DecimalFormat decimalFormat = new DecimalFormat("##.#");
-        return Float.parseFloat(decimalFormat.format(temperature * 1.8 + 32));
+        NumberFormat format = NumberFormat.getInstance(new Locale("en","US"));
+        String temString = format.format(temperature);
+        try {
+            Number number = format.parse(temString);
+            temperature = number.floatValue();
+            DecimalFormat decimalFormat = new DecimalFormat("##.#", new DecimalFormatSymbols(Locale.US));
+            return Float.parseFloat(decimalFormat.format(temperature * 1.8 + 32));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return temperature;
     }
 
     public static String formatDate(Date date, String format) {

@@ -38,8 +38,6 @@
 -dontwarn java.nio.file.**
 -dontwarn org.codehaus.**
 
-
-
 -dontwarn retrofit2.**
 -dontwarn org.codehaus.mojo.**
 -keep class retrofit2.** { *; }

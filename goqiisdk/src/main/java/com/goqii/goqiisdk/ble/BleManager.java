@@ -105,9 +105,9 @@ public class BleManager {
     }
 
     public static void init(final Context context, final JSONObject olaJsonObject) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+  /*      new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
                 if (ourInstance == null) {
                     synchronized (BleManager.class) {
                         if (ourInstance == null) {
@@ -120,8 +120,8 @@ public class BleManager {
 //            else
 //                responseCallbacks.getApiResult(true, NetworkManager.REQUEST.FETCH_TRACKER_SETTINGS);
                 }
-            }
-        });
+//            }
+//        });
     }
 
     public boolean isBleEnable() {
