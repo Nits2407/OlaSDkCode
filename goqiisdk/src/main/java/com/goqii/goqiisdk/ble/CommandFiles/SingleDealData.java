@@ -38,7 +38,7 @@ public class SingleDealData {
                         if (!(status.equalsIgnoreCase("logout")
                                 || status.equalsIgnoreCase("disconnect")
                                 || status.equalsIgnoreCase("offduty")) && isSyncOn && isLinked) {
-                            //BleUtilStatus.sendBandStatus(mContext, 1101);
+                            BleUtilStatus.sendBandStatus(mContext, 1101);
                             long localId = DatabaseHandler.getInstance(mContext).insertTemperature(mContext);
                             Utils.printLog("e", "LocalId:", "" + localId);
                             CommonApiCalls.CallHrTemperatureApi(mContext);
@@ -53,7 +53,7 @@ public class SingleDealData {
                     boolean isLinked = (boolean) Utils.getPreferences(mContext, Utils.IS_LINKED, Utils.PREFTYPE_BOOLEAN);
                     if (isLinked) {
                         CommonApiCalls.CallBatteryApi(mContext, battery);
-                        //BleUtilStatus.sendBandStatus(mContext, 1101);
+                        BleUtilStatus.sendBandStatus(mContext, 1101);
                     }
                     break;
                 case DeviceConst.CMD_RECIEVE_BINDING_REQUEST:

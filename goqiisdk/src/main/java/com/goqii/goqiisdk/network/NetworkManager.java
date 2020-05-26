@@ -105,8 +105,8 @@ public class NetworkManager {
             mHeaderMap = new HashMap<>();
             mHeaderMap.put("organizationId", Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
             mHeaderMap.put("nonce", Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
-            mHeaderMap.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
-            //mHeaderMap.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");//demo
+            //mHeaderMap.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
+            mHeaderMap.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");//demo
             mHeaderMap.put("signature",Utils.createSignature(context));
         }
 

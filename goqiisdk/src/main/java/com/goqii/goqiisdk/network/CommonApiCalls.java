@@ -137,6 +137,7 @@ public class CommonApiCalls {
             CallHrTemperatureApi(context);
         } else if (status.equalsIgnoreCase("onduty")) {
             if (BleManager.getInstance().isMacIdAvailable()) {
+                BleManager.getInstance().serviceInitialisation();
                 if (!BleManager.getInstance().isConnected())
                     BleManager.getInstance().connectDevice();
                 else
@@ -329,8 +330,8 @@ public class CommonApiCalls {
                         obj.put("phoneIdentity",Utils.getPhoneIdentityObject(context));
                         obj.put("organizationId",Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
                         obj.put("nonce", Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
-                        obj.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
-                        //obj.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");// Demo
+                        //obj.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
+                        obj.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");// Demo
                         obj.put("signature", Utils.createSignature(context));
                     } catch (JSONException e) {
                         e.printStackTrace();

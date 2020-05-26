@@ -20,6 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 # Retrofit
+-keep class com.goqii.goqiisdk.** { *; }
 -keep class com.google.gson.** { *; }
 -keep public class com.google.gson.** {public private protected *;}
 -keep class com.google.inject.** { *; }

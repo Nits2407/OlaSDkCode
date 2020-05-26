@@ -60,38 +60,10 @@ public class BleManager {
     private BleManager(final Context context, JSONObject olaJsonObject) {
         mContext = context.getApplicationContext();
         Utils.saveStringPreferences(mContext, Utils.PROFILE_DATA, olaJsonObject.toString());
-        if (serviceIntent == null) {
-            serviceIntent = new Intent(mContext, BleService.class);
-            mContext.startService(serviceIntent);
-            // TODO Auto-generated method stub
-            ServiceConnection serviceConnection = new ServiceConnection() {
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {// TODO Auto-generated method stub
-                    bleService = null;
-                }
-
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    try {
-                        BleService.LocalBinder binder = (BleService.LocalBinder) service;
-                        bleService = binder.getService();
-                        if (!TextUtils.isEmpty(address)) {
-                            bleService.initBluetoothDevice(address, mContext);
-                        }
-                    } catch (Exception e) {
-                        Utils.printStackTrace(e);
-                    }
-                }
-            };
-            mContext.bindService(serviceIntent, serviceConnection,
-                    Service.BIND_AUTO_CREATE);
-        }
         DatabaseHandler databaseHandler = DatabaseHandler.getInstance(mContext);
         databaseHandler.getWritableDatabase();
         BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
-        iniitiateLeScanner();
         Utils.getCurrentVersion(mContext);
         Utils.getPhoneIdentity(mContext);
     }
@@ -345,6 +317,7 @@ public class BleManager {
     }
 
     public void startScan(ResponseCallbacks responseCallbacks) {
+        serviceInitialisation();
         String status = (String) Utils.getPreferences(mContext, Utils.DRIVER_STATUS, Utils.PREFTYPE_STRING);
         if (responseCallbacks != null)
             this.responseCallbacks = responseCallbacks;
@@ -473,9 +446,17 @@ public class BleManager {
 
     public void startDataReading() {
         CommandSendRequest.setDateTimeToBand();
-        CommandSendRequest.getBandBatteryStatus();
-        CommandSendRequest.switchHeartRateClicked(true);
-        CommandSendRequest.setRealTimeMode(true);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommandSendRequest.getBandBatteryStatus();
+                CommandSendRequest.switchHeartRateClicked(true);
+                CommandSendRequest.setRealTimeMode(true);
+            }
+        }, 1000);
+
+
     }
 
     public void updateSyncingStatus(String status) {
@@ -511,5 +492,36 @@ public class BleManager {
     public void makeDisconnect() {
         if (bleService == null) return;
         bleService.makeDisconnectFlag();
+    }
+
+    public void serviceInitialisation() {
+        if (serviceIntent == null) {
+            serviceIntent = new Intent(mContext, BleService.class);
+            mContext.startService(serviceIntent);
+            // TODO Auto-generated method stub
+            ServiceConnection serviceConnection = new ServiceConnection() {
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {// TODO Auto-generated method stub
+                    bleService = null;
+                }
+
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    try {
+                        BleService.LocalBinder binder = (BleService.LocalBinder) service;
+                        bleService = binder.getService();
+                        if (!TextUtils.isEmpty(address)) {
+                            bleService.initBluetoothDevice(address, mContext);
+                        }
+                    } catch (Exception e) {
+                        Utils.printStackTrace(e);
+                    }
+                }
+            };
+            mContext.bindService(serviceIntent, serviceConnection,
+                    Service.BIND_AUTO_CREATE);
+            iniitiateLeScanner();
+        }
     }
 }

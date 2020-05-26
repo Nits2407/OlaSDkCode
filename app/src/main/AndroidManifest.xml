@@ -18,21 +18,21 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <!--Live Credentials-->
-        <meta-data
+       <!-- <meta-data
             android:name="GOQii_ACCOUNT_ID"
             android:value="20041809"/>
         <meta-data
             android:name="GOQii_TOKEN"
-            android:value="78yhr1d4fh5oq8cj8282j954f"/>
+            android:value="78yhr1d4fh5oq8cj8282j954f"/>-->
 
         <!--Demo Credentials-->
 
-        <!--<meta-data
+        <meta-data
             android:name="GOQii_ACCOUNT_ID"
             android:value="20041806"/>
         <meta-data
             android:name="GOQii_TOKEN"
-            android:value="k2bs517074hay1xlk8wj44j38"/>-->
+            android:value="k2bs517074hay1xlk8wj44j38"/>
 
         <activity
             android:name=".DeviceScanActivity"
