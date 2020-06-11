@@ -4,7 +4,7 @@ package com.goqii.goqiisdk.model;
  * Created by Administrator on 2018/1/16.
  */
 
-public class AutomicHeart extends SendData{
+public class AutomicHeart extends SendData {
     private int open;//1 开启 0关闭
     private int startHour;
     private int startMinute;

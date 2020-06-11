@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.goqii.goqiisdk.BuildConfig;
+import com.goqii.goqiisdk.ble.BleManager;
 import com.goqii.goqiisdk.model.TemperatureModel;
 import com.goqii.goqiisdk.network.ApiModels.FilesPreSignedUrl;
 import com.goqii.goqiisdk.network.GeneratePreSignedUrlResponse;
@@ -66,6 +67,7 @@ public class Utils {
     public static final String IS_SYNC_ON = "is_sync_on";
     public static final String KEY_END_POINTS = "key_end_points";
     public static final String IS_LINKED = "is_linked";
+    public static final String IS_LOG_DISABLED = "is_log_disabled";
     private static final String PHONE_IDENTITY = "phone_identity";
     public static final String DEVICENAME = "devicename";
     public static final String DRIVER_STATUS = "driver_status";
@@ -180,7 +182,8 @@ public class Utils {
     }
 
     public static void printLog(String type, String title, String description) {
-        if (BuildConfig.DEBUG) {
+        boolean isLogDisabled = BleManager.getInstance().isLogDisabled();
+        if (!isLogDisabled) {
             if (type.equalsIgnoreCase("e"))
                 Log.e("" + title, "" + description);
 
@@ -259,7 +262,7 @@ public class Utils {
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = app.metaData;
 
-            printLog("e", "Ola", "" + bundle.getInt("GOQii_ACCOUNT_ID", 0) + "\n" + bundle.getString("GOQii_TOKEN"));
+            //printLog("e", "Ola", "" + bundle.getInt("GOQii_ACCOUNT_ID", 0) + "\n" + bundle.getString("GOQii_TOKEN"));
             Utils.saveStringPreferences(context, Utils.GOQii_ACCOUNT_ID, "" + bundle.getInt("GOQii_ACCOUNT_ID", 0));
             Utils.saveStringPreferences(context, Utils.GOQii_TOKEN, bundle.getString("GOQii_TOKEN"));
 
@@ -352,10 +355,10 @@ public class Utils {
             bw.write(data);
             bw.flush();
         } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+           e.printStackTrace();
         }
         uploadOnS3(context, saveFile);
-        printLog("e", "Exported Successfully.", "Steps reached Successfully.");
+        //printLog("e", "Exported Successfully.", "Steps reached Successfully.");
     }
 
     private static void uploadOnS3(Context context, File saveFile) {
@@ -367,7 +370,7 @@ public class Utils {
             urls.add(filesPreSignedUrl);
             if (urls.size() > 0)
                 new GeneratePreSignedUrlResponse().generatePreSigned_url(context, urls, moduleType);
-            printLog("e", "Exported Successfully.", "Exported Successfully.");
+            //printLog("e", "Exported Successfully.", "Exported Successfully.");
         }
     }
 

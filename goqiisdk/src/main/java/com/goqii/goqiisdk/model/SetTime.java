@@ -4,7 +4,7 @@ package com.goqii.goqiisdk.model;
  * Created by Administrator on 2018/1/16.
  */
 
-public class SetTime extends SendData{
+public class SetTime extends SendData {
     private int year;
     private int month;
     private int day;

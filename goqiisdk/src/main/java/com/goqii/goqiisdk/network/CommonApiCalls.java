@@ -80,7 +80,9 @@ public class CommonApiCalls {
 
     public static void CallUpdateStatus(final Context context, final ResponseCallbacks responseCallbacks, final String status) {
         String macAdress = BleManager.getInstance().getGoqiiTrackerMacID();
-        updateStatusProcedure(context, status);
+        Utils.printLog("e", "GoqiiOlaIntegration:", status);
+        if (!status.equalsIgnoreCase("syncOn") && !status.equalsIgnoreCase("syncOff"))
+            updateStatusProcedure(context, status);
         if (status.equalsIgnoreCase("logout") || status.equalsIgnoreCase("disconnect")) {
             BleManager.getInstance().getAllPairedDevices(macAdress);
             final Handler handler = new Handler();
@@ -105,7 +107,8 @@ public class CommonApiCalls {
                         public void onSuccess(NetworkManager.REQUEST type, Response response) {
                             BaseResponse baseResponse = (BaseResponse) response.body();
                             if (baseResponse.getCode() == 200) {
-                                if (responseCallbacks != null && !status.equalsIgnoreCase("onduty"))
+                                if (responseCallbacks != null && !status.equalsIgnoreCase("onduty") &&
+                                        !status.equalsIgnoreCase("syncOn") && !status.equalsIgnoreCase("syncOff"))
                                     responseCallbacks.getApiResult(true, type);
                             } else if (responseCallbacks != null)
                                 responseCallbacks.getApiResult(false, type);
@@ -130,14 +133,11 @@ public class CommonApiCalls {
             Utils.saveBooleanPreferences(context, Utils.IS_SYNC_ON, false);
             Utils.saveBooleanPreferences(context, Utils.IS_LINKED, false);
             CallHrTemperatureApi(context);
-            //BleManager.getInstance().turnOffBluetooth();
         } else if (status.equalsIgnoreCase("offduty")) {
-            //CommandSendRequest.switchHeartRateClicked(false);
             BleManager.getInstance().disconnectDevice();
             CallHrTemperatureApi(context);
         } else if (status.equalsIgnoreCase("onduty")) {
             if (BleManager.getInstance().isMacIdAvailable()) {
-                BleManager.getInstance().serviceInitialisation();
                 if (!BleManager.getInstance().isConnected())
                     BleManager.getInstance().connectDevice();
                 else
@@ -287,7 +287,7 @@ public class CommonApiCalls {
                             BaseResponse baseResponse = (BaseResponse) response.body();
                             if (baseResponse.getCode() == 200) {
                                 BaseResponseData baseResponseData = baseResponse.getData();
-                                Utils.printLog("e", "Message", baseResponseData.getMessage());
+                                //Utils.printLog("e", "Message", baseResponseData.getMessage());
                             }
                         }
 
@@ -310,7 +310,6 @@ public class CommonApiCalls {
         if (diff >= Long.parseLong(apiCallingTime) * 1000 || status.equalsIgnoreCase("logout")
                 || status.equalsIgnoreCase("disconnect")) {
             lastHrApiCallingTime = currentTime;
-            Utils.printLog("e", "Temperature API", "Called");
             ArrayList<TemperatureModel> tempList = DatabaseHandler.getInstance(context).getAllNewRecords();
             if (status.equalsIgnoreCase("logout")) {
                 DatabaseHandler.getInstance(context).clearAllData();
@@ -320,25 +319,27 @@ public class CommonApiCalls {
             }
             if (tempList.size() > 0) {
                 if (Utils.isNetworkAvailable(context)) {
+                    BleUtilStatus.sendBandStatus(context, 1102);
                     Gson gson = new Gson();
                     String json = gson.toJson(tempList);
                     JSONObject obj = new JSONObject();
                     try {
-                        obj.put("data",json);
-                        obj.put("trackerMacId",BleManager.getInstance().getGoqiiTrackerMacID());
-                        obj.put("profile",Utils.getIdentityObject(context));
-                        obj.put("phoneIdentity",Utils.getPhoneIdentityObject(context));
-                        obj.put("organizationId",Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
-                        obj.put("nonce", Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
-                        //obj.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
-                        obj.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");// Demo
+                        obj.put("data", json);
+                        obj.put("trackerMacId", BleManager.getInstance().getGoqiiTrackerMacID());
+                        obj.put("profile", Utils.getIdentityObject(context));
+                        obj.put("phoneIdentity", Utils.getPhoneIdentityObject(context));
+                        obj.put("organizationId", Utils.getPreferences(context, Utils.GOQii_ACCOUNT_ID, Utils.PREFTYPE_STRING));
+                        obj.put("nonce", Utils.getPreferences(context, Utils.GOQii_ACCOUNT_ID, Utils.PREFTYPE_STRING));
+                        obj.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
+                        //obj.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");// Demo
                         obj.put("signature", Utils.createSignature(context));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     Utils.writeToFile(context, obj.toString(), DatabaseHandler.TABLE_TEMPERATURE);
                 }
-            }
+            } else
+                Utils.printLog("e", "GoqiiOlaIntegration", "No Data Found");
         }
     }
 

@@ -53,7 +53,7 @@ public class GeneratePreSignedUrlResponse {
         query.put("moduleType", moduleType);
         query.put("quantity", urls.size());
         query.put("fileType", fileType);
-
+        Utils.printLog("e", "GoqiiOlaIntegration", "Data Sending");
 
         networkManager.request(query, NetworkManager.REQUEST.GENERATE_PRESIGNED_URL, new NetworkManager.RequestCallback() {
             @Override
@@ -101,6 +101,7 @@ public class GeneratePreSignedUrlResponse {
         protected String doInBackground(String... params) {
             try {
 //                // Obtain the url
+                Utils.printLog("e", "GoqiiOlaIntegration", "API Called");
                 int NETWORK_TIMEOUT_SEC = 60;
                 OkHttpClient client = new OkHttpClient.Builder()
                         .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
@@ -121,9 +122,8 @@ public class GeneratePreSignedUrlResponse {
                     if (!status.equalsIgnoreCase("logout"))
                         DatabaseHandler.getInstance(mContext).updateStatus();
                 }
-            } catch (
-                    Exception e) {
-                Utils.printLog("e", "GeneratePreSignedUrlResponse", "Error");
+            } catch (Exception e) {
+                //Utils.printLog("e", "GeneratePreSignedUrlResponse", "Error");
             }
             return "OK";
         }
@@ -131,7 +131,7 @@ public class GeneratePreSignedUrlResponse {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-                Utils.printLog("e","File Upload", "Data Uploaded Successfully");
+                //Utils.printLog("e","File Upload", "Data Uploaded Successfully");
         }
     }
 }

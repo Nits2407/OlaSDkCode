@@ -60,10 +60,12 @@ public class BleManager {
     private BleManager(final Context context, JSONObject olaJsonObject) {
         mContext = context.getApplicationContext();
         Utils.saveStringPreferences(mContext, Utils.PROFILE_DATA, olaJsonObject.toString());
+        serviceInitialisation();
         DatabaseHandler databaseHandler = DatabaseHandler.getInstance(mContext);
         databaseHandler.getWritableDatabase();
         BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
+        iniitiateLeScanner();
         Utils.getCurrentVersion(mContext);
         Utils.getPhoneIdentity(mContext);
     }
@@ -76,22 +78,23 @@ public class BleManager {
             }
     }
 
-    public static void init(final Context context, final JSONObject olaJsonObject) {
+    public static void init(final Context context, final JSONObject olaJsonObject, boolean isLogDisabled) {
   /*      new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {*/
+        Utils.saveBooleanPreferences(context, Utils.IS_LOG_DISABLED, isLogDisabled);
+        if (ourInstance == null) {
+            synchronized (BleManager.class) {
                 if (ourInstance == null) {
-                    synchronized (BleManager.class) {
-                        if (ourInstance == null) {
-                            ourInstance = new BleManager(context, olaJsonObject);
-                        }
-                    }
-                    int isSettingsApi = (int) Utils.getPreferences(context, Utils.IS_SETTINGS_API, Utils.PREFTYPE_INT);
-                    if (isSettingsApi == 0)
-                        BleManager.getInstance().callSettingsApi(null);
+                    ourInstance = new BleManager(context, olaJsonObject);
+                }
+            }
+            int isSettingsApi = (int) Utils.getPreferences(context, Utils.IS_SETTINGS_API, Utils.PREFTYPE_INT);
+            if (isSettingsApi == 0)
+                BleManager.getInstance().callSettingsApi(null);
 //            else
 //                responseCallbacks.getApiResult(true, NetworkManager.REQUEST.FETCH_TRACKER_SETTINGS);
-                }
+        }
 //            }
 //        });
     }
@@ -198,7 +201,7 @@ public class BleManager {
             Method removeBondMethod = btClass.getMethod("removeBond");
             BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(device.getAddress());
             boolean invoke = (boolean) removeBondMethod.invoke(bluetoothDevice);
-            Utils.printLog("e", "Pair Status:", "" + invoke);
+            //Utils.printLog("e", "Pair Status:", "" + invoke);
         } catch (Exception e) {
             Utils.printStackTrace(e);
         }
@@ -317,7 +320,6 @@ public class BleManager {
     }
 
     public void startScan(ResponseCallbacks responseCallbacks) {
-        serviceInitialisation();
         String status = (String) Utils.getPreferences(mContext, Utils.DRIVER_STATUS, Utils.PREFTYPE_STRING);
         if (responseCallbacks != null)
             this.responseCallbacks = responseCallbacks;
@@ -366,7 +368,7 @@ public class BleManager {
                                 bluetoothAdapter.stopLeScan(mLeScanCallback);
                             } else {
                                 String address = (String) Utils.getPreferences(mContext, Utils.TEMP_MACADDRESS, Utils.PREFTYPE_STRING);
-                                Utils.printLog("e", "Callback", address);
+                                //Utils.printLog("e", "Callback", address);
                                 if (!isDeviceFound)
                                     BleUtilStatus.sendBandStatus(mContext, 1408);
                                 mLEScanner.stopScan(mScanCallback);
@@ -460,11 +462,16 @@ public class BleManager {
     }
 
     public void updateSyncingStatus(String status) {
+        int callBackCode = 0;
         if (status.equalsIgnoreCase("syncOn")) {
             Utils.saveBooleanPreferences(mContext, Utils.IS_SYNC_ON, true);
+            callBackCode = 1303;
         } else if (status.equalsIgnoreCase("syncOff")) {
             Utils.saveBooleanPreferences(mContext, Utils.IS_SYNC_ON, false);
+            callBackCode = 1304;
         }
+        updateStatus(status);
+        BleUtilStatus.sendBandStatus(mContext, callBackCode);
     }
 
     public void getAllPairedDevices(String macAddress) {
@@ -521,7 +528,10 @@ public class BleManager {
             };
             mContext.bindService(serviceIntent, serviceConnection,
                     Service.BIND_AUTO_CREATE);
-            iniitiateLeScanner();
         }
+    }
+
+    public boolean isLogDisabled() {
+        return (boolean) Utils.getPreferences(mContext, Utils.IS_LOG_DISABLED, Utils.PREFTYPE_BOOLEAN);
     }
 }

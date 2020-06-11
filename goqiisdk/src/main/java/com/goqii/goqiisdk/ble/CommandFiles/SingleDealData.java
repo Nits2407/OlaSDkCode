@@ -28,8 +28,8 @@ public class SingleDealData {
                         map.put(DeviceKey.KSportTime, activityData[3]);
                         map.put(DeviceKey.KHeartValue, activityData[4]);
                         map.put(DeviceKey.KTemperature, activityData[5]);
-                        Utils.printLog("e", "HeartRate", activityData[4]);
-                        Utils.printLog("e", "Temperature", activityData[5]);
+                        //Utils.printLog("e", "HeartRate", activityData[4]);
+                        //Utils.printLog("e", "Temperature", activityData[5]);
                         Utils.saveStringPreferences(mContext, Utils.HEARTRATE, activityData[4]);
                         Utils.saveStringPreferences(mContext, Utils.TEMPERATURE, activityData[5]);
                         final String status = (String) Utils.getPreferences(mContext, Utils.DRIVER_STATUS, Utils.PREFTYPE_STRING);
@@ -38,9 +38,9 @@ public class SingleDealData {
                         if (!(status.equalsIgnoreCase("logout")
                                 || status.equalsIgnoreCase("disconnect")
                                 || status.equalsIgnoreCase("offduty")) && isSyncOn && isLinked) {
-                            BleUtilStatus.sendBandStatus(mContext, 1101);
+                            //BleUtilStatus.sendBandStatus(mContext, 1101);
                             long localId = DatabaseHandler.getInstance(mContext).insertTemperature(mContext);
-                            Utils.printLog("e", "LocalId:", "" + localId);
+                            //Utils.printLog("e", "LocalId:", "" + localId);
                             CommonApiCalls.CallHrTemperatureApi(mContext);
                         }
 
@@ -53,7 +53,7 @@ public class SingleDealData {
                     boolean isLinked = (boolean) Utils.getPreferences(mContext, Utils.IS_LINKED, Utils.PREFTYPE_BOOLEAN);
                     if (isLinked) {
                         CommonApiCalls.CallBatteryApi(mContext, battery);
-                        BleUtilStatus.sendBandStatus(mContext, 1101);
+                        //BleUtilStatus.sendBandStatus(mContext, 1101);
                     }
                     break;
                 case DeviceConst.CMD_RECIEVE_BINDING_REQUEST:

@@ -105,8 +105,8 @@ public class NetworkManager {
             mHeaderMap = new HashMap<>();
             mHeaderMap.put("organizationId", Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
             mHeaderMap.put("nonce", Utils.getPreferences(context,Utils.GOQii_ACCOUNT_ID,Utils.PREFTYPE_STRING));
-            //mHeaderMap.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
-            mHeaderMap.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");//demo
+            mHeaderMap.put("organizationApiKey", "f988n87erhv3y94154qj4uy4l");//Live
+            //mHeaderMap.put("organizationApiKey", "zavj59zhx4fhm2yjd344bachx");//demo
             mHeaderMap.put("signature",Utils.createSignature(context));
         }
 
@@ -118,14 +118,14 @@ public class NetworkManager {
         request.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-                Utils.printLog("d", "onResponse", "" + response.toString());
+                //Utils.printLog("d", "onResponse", "" + response.toString());
                 if (response.isSuccessful())
                     callback.onSuccess(type, response);
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Utils.printLog("e", "onFailure", type.name() + " : " + t.getMessage());
+                //Utils.printLog("e", "onFailure", type.name() + " : " + t.getMessage());
                 callback.onFailure(type);
             }
         });
@@ -134,8 +134,8 @@ public class NetworkManager {
     private RequestBody getBody(REQUEST type, Map<String, Object> bodyMap) {
         Gson gson = new Gson();
         String mapJson = gson.toJson(bodyMap);
-        Utils.printLog("i", "NetworkManager", "Body-JSON : " +
-                type.name() + "\n" + mapJson);
+//        Utils.printLog("i", "NetworkManager", "Body-JSON : " +
+//                type.name() + "\n" + mapJson);
 //        CommonMethods.printLog("d", "objJson", "" + objJson);
         return RequestBody.create(MediaType.parse("text/plain"), mapJson);
     }

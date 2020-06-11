@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseCallback
             e.printStackTrace();
         }
 
-        BleManager.init(getApplicationContext(), olaJsonObject);
+        BleManager.init(getApplicationContext(), olaJsonObject,false);
         //new AsyncTaskExample().execute();
         if (Utils.isNetworkAvailable(this)) {
             showConnectDialog(getString(R.string.fetching_tracker_setting));
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseCallback
                 e.printStackTrace();
             }
 
-            BleManager.init(getApplicationContext(), olaJsonObject);
+            BleManager.init(getApplicationContext(), olaJsonObject,false);
             return "";
         }
         @Override

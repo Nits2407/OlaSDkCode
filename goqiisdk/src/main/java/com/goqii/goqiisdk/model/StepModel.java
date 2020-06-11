@@ -4,7 +4,7 @@ package com.goqii.goqiisdk.model;
  * Created by Administrator on 2018/4/9.
  */
 
-public class StepModel extends SendData{
+public class StepModel extends SendData {
     private boolean stepState = true;//true开启实时计步，false停止实时计步
 
     public boolean isStepState() {

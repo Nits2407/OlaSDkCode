@@ -280,13 +280,15 @@ public class RealtimeHrAndTempDataActivity extends AppCompatActivity implements 
     private void showToast(Intent intent, int callbackCode) {
         String alertType = intent.getStringExtra("alertType");
         String severity = intent.getStringExtra("severity");
-        Utils.printLog("e","Callback","" + callbackCode);
         String msg = "";
         dissMissDialog();
         boolean isToastShow = true;
         switch (callbackCode) {
             case 1101:
                 updateData();
+                isToastShow = false;
+                break;
+            case 1102:
                 isToastShow = false;
                 break;
             case 1200:
