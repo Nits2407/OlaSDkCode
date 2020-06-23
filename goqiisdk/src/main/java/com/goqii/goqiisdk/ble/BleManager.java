@@ -501,33 +501,37 @@ public class BleManager {
         bleService.makeDisconnectFlag();
     }
 
-    public void serviceInitialisation() {
-        if (serviceIntent == null) {
-            serviceIntent = new Intent(mContext, BleService.class);
-            mContext.startService(serviceIntent);
-            // TODO Auto-generated method stub
-            ServiceConnection serviceConnection = new ServiceConnection() {
+    private void serviceInitialisation() {
+        try {
+            if (serviceIntent == null) {
+                serviceIntent = new Intent(mContext, BleService.class);
+                mContext.startService(serviceIntent);
+                // TODO Auto-generated method stub
+                ServiceConnection serviceConnection = new ServiceConnection() {
 
-                @Override
-                public void onServiceDisconnected(ComponentName name) {// TODO Auto-generated method stub
-                    bleService = null;
-                }
-
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    try {
-                        BleService.LocalBinder binder = (BleService.LocalBinder) service;
-                        bleService = binder.getService();
-                        if (!TextUtils.isEmpty(address)) {
-                            bleService.initBluetoothDevice(address, mContext);
-                        }
-                    } catch (Exception e) {
-                        Utils.printStackTrace(e);
+                    @Override
+                    public void onServiceDisconnected(ComponentName name) {// TODO Auto-generated method stub
+                        bleService = null;
                     }
-                }
-            };
-            mContext.bindService(serviceIntent, serviceConnection,
-                    Service.BIND_AUTO_CREATE);
+
+                    @Override
+                    public void onServiceConnected(ComponentName name, IBinder service) {
+                        try {
+                            BleService.LocalBinder binder = (BleService.LocalBinder) service;
+                            bleService = binder.getService();
+                            if (!TextUtils.isEmpty(address)) {
+                                bleService.initBluetoothDevice(address, mContext);
+                            }
+                        } catch (Exception e) {
+                            Utils.printStackTrace(e);
+                        }
+                    }
+                };
+                mContext.bindService(serviceIntent, serviceConnection,
+                        Service.BIND_AUTO_CREATE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
